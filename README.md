@@ -32,8 +32,6 @@ TeamFlow is a full-stack project and task management application built to demons
 | Delete Tasks | ✓ | Own Projects | — |
 | View Audit Logs | ✓ | — | — |
 
-Backend authorization is enforced independently of frontend UI restrictions.
-
 ## Technology Stack
 
 **Frontend:** React.js, React Router, Context API, Axios, Vite, CSS3
@@ -95,13 +93,15 @@ The application uses MongoDB with Mongoose.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/teamflow-rbac.git
+git clone https://github.com/PragyaKumari2203/teamflow-rbac.git
 cd teamflow-rbac
+```
 
 ### 2. Install Backend Dependencies
 ```bash
 cd server
 npm install
+```
 
 Create a server/.env file:
 ```bash
@@ -110,27 +110,31 @@ MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 CLIENT_URL=http://localhost:5173
 NODE_ENV=development
+```
 
 Start the backend:
 ```bash
 npm run dev
+```
 
 ### 3. Install Frontend Dependencies
 Open another terminal:
 ```bash
 cd client
 npm install
+```
 
 Create a client/.env file:
 ```bash
 VITE_API_URL=http://localhost:5000/api
+```
 
 Start the frontend:
 ```bash
 npm run dev
+```
 
-The application will normally be available at:
-http://localhost:5173
+The application will normally be available at: http://localhost:5173
 
 ### 4. Seed Demo Data
 
@@ -139,6 +143,7 @@ The project includes seed data for testing the different RBAC roles.
 From the server directory, run:
 ```bash
 npm run seed
+```
 
 The seed script creates demo users, projects, and related data for testing.
 
@@ -149,8 +154,6 @@ Role	  Email	           Password
 Admin	  admin@teamflow.com	Admin@123
 Manager	manager@teamflow.com	Manager@123
 Member	member@teamflow.com	Member@123
-
-These accounts are provided only for demonstration and assessment purposes.
 
 If the seed script has not been run, the demo accounts will not be available.
 
