@@ -69,6 +69,7 @@ TeamFlow/
 │
 ├── .gitignore
 └── README.md
+```text
 
 ## Database Design
 
