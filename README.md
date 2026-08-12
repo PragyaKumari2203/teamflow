@@ -150,11 +150,13 @@ The seed script creates demo users, projects, and related data for testing.
 
 After seeding, use the demo credentials below to test the different roles.
 
-Demo Credentials
-Role	  Email	           Password
-Admin	  admin@teamflow.com	Admin@123
-Manager	manager@teamflow.com	Manager@123
-Member	member@teamflow.com	Member@123
+### Demo Credentials
+
+| Role | Email | Password |
+| :--- | :--- | :--- |
+| **Admin** | `admin@teamflow.com` | `Admin@123` |
+| **Manager** | `manager@teamflow.com` | `Manager@123` |
+| **Member** | `member@teamflow.com` | `Member@123` |
 
 If the seed script has not been run, the demo accounts will not be available.
 
