@@ -1070,11 +1070,12 @@ button {
 
 
 
-
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
     .mobile-menu-button {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
+        position: relative !important;
+        z-index: 10000 !important;
     }
 }
