@@ -3,6 +3,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://teamflow-api-1gvo.onrender.com/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
