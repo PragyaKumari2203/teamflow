@@ -2,6 +2,10 @@
 
 TeamFlow is a full-stack project and task management application built to demonstrate secure Role-Based Access Control (RBAC). It allows teams to manage projects, assign tasks, manage users, and track important activities through audit logs.
 
+## 🚀 Live Application
+
+[TeamFlow – Live Demo](https://teamflow-oghd3x7gk-team-flow5.vercel.app)
+
 ## Features
 
 - User authentication with login/logout
@@ -41,6 +45,8 @@ TeamFlow is a full-stack project and task management application built to demons
 **Database:** MongoDB, Mongoose
 
 **Tools:** Git, GitHub, Postman, VS Code
+
+**Deployment:** Vercel (Frontend), Render (Backend)
 
 ## Project Structure
 
