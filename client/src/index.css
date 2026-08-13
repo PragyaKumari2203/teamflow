@@ -283,14 +283,6 @@ button {
     }
 }
 
-@media (max-width: 600px) {
-    .sidebar {
-        display: none;
-    }
-}
-
-
-
 .primary-button,
 .secondary-button {
     display: inline-flex;
@@ -949,3 +941,131 @@ button {
     color: #9ca3af;
     cursor: not-allowed;
 }
+
+/* ================================
+   MOBILE NAVIGATION
+================================ */
+
+.mobile-menu-button {
+    display: none;
+    border: none;
+    background: transparent;
+    font-size: 26px;
+    color: #111827;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.mobile-close-button {
+    display: none;
+}
+
+.sidebar-overlay {
+    display: none;
+}
+
+@media (max-width: 600px) {
+
+    /* Navbar */
+    .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+        padding: 0 14px;
+    }
+
+    .mobile-menu-button {
+        display: block;
+        order: 1;
+    }
+
+    .topbar-user {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+        gap: 10px;
+    }
+
+    .topbar-user div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        display: flex !important;
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 260px;
+        height: 100vh;
+        min-height: 100vh;
+
+        z-index: 1001;
+
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+
+        box-shadow: 8px 0 25px rgba(0, 0, 0, 0.25);
+    }
+
+    .sidebar.sidebar-open {
+        transform: translateX(0);
+    }
+
+    /* Dark background behind sidebar */
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+
+        background: rgba(0, 0, 0, 0.45);
+
+        z-index: 1000;
+
+        opacity: 0;
+        visibility: hidden;
+
+        transition:
+            opacity 0.25s ease,
+            visibility 0.25s ease;
+    }
+
+    .sidebar-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* X button */
+    .mobile-close-button {
+        display: block;
+
+        position: absolute;
+        top: 15px;
+        right: 14px;
+
+        border: none;
+        background: transparent;
+
+        color: white;
+        font-size: 30px;
+        line-height: 1;
+
+        cursor: pointer;
+    }
+
+    /* Content */
+    .main-area {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .page-content {
+        padding: 20px 16px;
+    }
+}
+
+

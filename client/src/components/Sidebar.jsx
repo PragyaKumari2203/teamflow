@@ -1,66 +1,103 @@
-import { NavLink } from "react-router-dom";
 
+import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-const Sidebar = () => {
+const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     const { user } = useAuth();
 
     const linkClass = ({ isActive }) =>
         `sidebar-link ${isActive ? "active" : ""}`;
 
+    const handleLinkClick = () => {
+        // Close sidebar after clicking a link on mobile
+        setSidebarOpen(false);
+    };
+
     return (
-        <aside className="sidebar">
-            <div className="sidebar-brand">
-                <h2>TeamFlow</h2>
-                <span>Project Management</span>
-            </div>
+        <>
+            {/* Dark overlay */}
+            <div
+                className={`sidebar-overlay ${
+                    sidebarOpen ? "show" : ""
+                }`}
+                onClick={() => setSidebarOpen(false)}
+            ></div>
 
-            <nav className="sidebar-nav">
-                <NavLink
-                    to="/dashboard"
-                    className={linkClass}
+            <aside
+                className={`sidebar ${
+                    sidebarOpen ? "sidebar-open" : ""
+                }`}
+            >
+
+                {/* Mobile close button */}
+                <button
+                    className="mobile-close-button"
+                    onClick={() => setSidebarOpen(false)}
+                    aria-label="Close menu"
                 >
-                    Dashboard
-                </NavLink>
+                    ×
+                </button>
 
-                <NavLink
-                    to="/projects"
-                    className={linkClass}
-                >
-                    Projects
-                </NavLink>
+                <div className="sidebar-brand">
+                    <h2>TeamFlow</h2>
+                    <span>Project Management</span>
+                </div>
 
-                <NavLink
-                    to="/tasks"
-                    className={linkClass}
-                >
-                    Tasks
-                </NavLink>
+                <nav className="sidebar-nav">
 
-                {user?.role === "ADMIN" && (
-                    <>
-                        <NavLink
-                            to="/users"
-                            className={linkClass}
-                        >
-                            Users
-                        </NavLink>
+                    <NavLink
+                        to="/dashboard"
+                        className={linkClass}
+                        onClick={handleLinkClick}
+                    >
+                        Dashboard
+                    </NavLink>
 
-                        <NavLink
-                            to="/audit-logs"
-                            className={linkClass}
-                        >
-                            Audit Logs
-                        </NavLink>
-                    </>
-                )}
-            </nav>
+                    <NavLink
+                        to="/projects"
+                        className={linkClass}
+                        onClick={handleLinkClick}
+                    >
+                        Projects
+                    </NavLink>
 
-            <div className="sidebar-role">
-                <span>Signed in as</span>
-                <strong>{user?.role}</strong>
-            </div>
-        </aside>
+                    <NavLink
+                        to="/tasks"
+                        className={linkClass}
+                        onClick={handleLinkClick}
+                    >
+                        Tasks
+                    </NavLink>
+
+                    {user?.role === "ADMIN" && (
+                        <>
+                            <NavLink
+                                to="/users"
+                                className={linkClass}
+                                onClick={handleLinkClick}
+                            >
+                                Users
+                            </NavLink>
+
+                            <NavLink
+                                to="/audit-logs"
+                                className={linkClass}
+                                onClick={handleLinkClick}
+                            >
+                                Audit Logs
+                            </NavLink>
+                        </>
+                    )}
+
+                </nav>
+
+                <div className="sidebar-role">
+                    <span>Signed in as</span>
+                    <strong>{user?.role}</strong>
+                </div>
+
+            </aside>
+        </>
     );
 };
 
