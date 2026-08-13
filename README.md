@@ -178,4 +178,4 @@ If the seed script has not been run, the demo accounts will not be available.
 <img src="screenshots/users.png" alt="TeamFlow User Management" width="800">
 
 ### Audit Logs
-<img src="screenshots/auditlogs.png" alt="TeamFlow Audit Logs" width="800">
+<img src="screenshots/auditLogs.png" alt="TeamFlow Audit Logs" width="800">
