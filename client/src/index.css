@@ -1069,3 +1069,12 @@ button {
 }
 
 
+
+
+@media screen and (max-width: 600px) {
+    .mobile-menu-button {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+}
