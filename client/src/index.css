@@ -1078,3 +1078,29 @@ button {
         opacity: 1 !important;
     }
 }
+
+@media screen and (max-width: 768px) {
+    .mobile-menu-button {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        margin-right: auto;
+        border: none;
+        background: transparent;
+        color: #111827;
+        font-size: 28px;
+        cursor: pointer;
+        z-index: 10000;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
