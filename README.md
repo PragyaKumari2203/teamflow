@@ -160,3 +160,22 @@ After seeding, use the demo credentials below to test the different roles.
 
 If the seed script has not been run, the demo accounts will not be available.
 
+## Screenshots
+
+### Login
+<img src="screenshots/login.png" alt="TeamFlow Login" width="800">
+
+### Dashboard
+<img src="screenshots/dashboard.png" alt="TeamFlow Dashboard" width="800">
+
+### Projects
+<img src="screenshots/projects.png" alt="TeamFlow Projects" width="800">
+
+### Tasks
+<img src="screenshots/tasks.png" alt="TeamFlow Tasks" width="800">
+
+### User Management
+<img src="screenshots/users.png" alt="TeamFlow User Management" width="800">
+
+### Audit Logs
+<img src="screenshots/auditlogs.png" alt="TeamFlow Audit Logs" width="800">
