@@ -16,6 +16,7 @@ import AuditLogs from "./pages/AuditLogs";
 import ProjectForm from "./pages/ProjectForm";
 import UserForm from "./pages/UserForm";
 import TaskForm from "./pages/TaskForm";
+import UserDetails from "./pages/UserDetails";
 
 const App = () => {
   return (
@@ -40,6 +41,15 @@ const App = () => {
               element={
                 <RoleGuard allowedRoles={["ADMIN"]}>
                   <Users />
+                </RoleGuard>
+              }
+            />
+
+            <Route
+              path="/users/:id"
+              element={
+                <RoleGuard allowedRoles={["ADMIN"]}>
+                  <UserDetails />
                 </RoleGuard>
               }
             />

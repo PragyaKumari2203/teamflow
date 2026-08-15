@@ -27,16 +27,10 @@ const TaskForm = () => {
     const [pageLoading, setPageLoading] = useState(true);
     const [error, setError] = useState("");
 
-    /*
-     * Load projects and, when editing,
-     * load the existing task.
-     */
     useEffect(() => {
         const loadData = async () => {
             try {
-                const projectsResponse =
-                    await api.get("/projects");
-
+                const projectsResponse = await api.get("/projects");
                 const availableProjects =
                     projectsResponse.data.projects;
 
@@ -46,17 +40,13 @@ const TaskForm = () => {
                     const taskResponse =
                         await api.get(`/tasks/${id}`);
 
-                    const task =
-                        taskResponse.data.task;
+                    const task = taskResponse.data.task;
 
                     setFormData({
                         title: task.title,
-                        description:
-                            task.description || "",
-                        project:
-                            task.project?._id || "",
-                        assignedTo:
-                            task.assignedTo?._id || "",
+                        description: task.description || "",
+                        project: task.project?._id || "",
+                        assignedTo: task.assignedTo?._id || "",
                         status: task.status,
                         priority: task.priority,
                         dueDate: task.dueDate
@@ -64,15 +54,10 @@ const TaskForm = () => {
                             : ""
                     });
 
-                    /*
-                     * Find the project of the existing task
-                     * and show only its members.
-                     */
                     const selectedProject =
                         availableProjects.find(
                             (project) =>
-                                project._id ===
-                                task.project?._id
+                                project._id === task.project?._id
                         );
 
                     setProjectMembers(
@@ -92,9 +77,6 @@ const TaskForm = () => {
         loadData();
     }, [id, isEditing]);
 
-    /*
-     * Handles normal input changes.
-     */
     const handleChange = (event) => {
         const { name, value } = event.target;
 
@@ -104,36 +86,21 @@ const TaskForm = () => {
         }));
     };
 
-    /*
-     * When the project changes, update the
-     * available members accordingly.
-     */
     const handleProjectChange = (event) => {
         const projectId = event.target.value;
 
-        const selectedProject =
-            projects.find(
-                (project) =>
-                    project._id === projectId
-            );
+        const selectedProject = projects.find(
+            (project) => project._id === projectId
+        );
 
-        const members =
-            selectedProject?.members || [];
+        const members = selectedProject?.members || [];
 
         setProjectMembers(members);
 
-        /*
-         * If the previously selected member
-         * does not belong to the new project,
-         * remove that selection.
-         */
         setFormData((current) => {
-            const memberStillBelongs =
-                members.some(
-                    (member) =>
-                        member._id ===
-                        current.assignedTo
-                );
+            const memberStillBelongs = members.some(
+                (member) => member._id === current.assignedTo
+            );
 
             return {
                 ...current,
@@ -153,15 +120,9 @@ const TaskForm = () => {
 
         try {
             if (isEditing) {
-                await api.patch(
-                    `/tasks/${id}`,
-                    formData
-                );
+                await api.patch(`/tasks/${id}`, formData);
             } else {
-                await api.post(
-                    "/tasks",
-                    formData
-                );
+                await api.post("/tasks", formData);
             }
 
             navigate("/tasks");
@@ -189,8 +150,12 @@ const TaskForm = () => {
     if (pageLoading) {
         return (
             <AppLayout>
-                <div className="state-message">
-                    Loading task...
+                <div className="mx-4 py-8 sm:mx-6 lg:mx-8 xl:mx-10">
+                    <div className="animate-pulse space-y-5">
+                        <div className="h-4 w-28 rounded bg-[#E5E0DC]" />
+                        <div className="h-10 w-64 rounded bg-[#E5E0DC]" />
+                        <div className="h-[560px] rounded-2xl bg-white" />
+                    </div>
                 </div>
             </AppLayout>
         );
@@ -198,211 +163,275 @@ const TaskForm = () => {
 
     return (
         <AppLayout>
-            <div className="page-header">
-                <div>
-                    <h1>
-                        {isEditing
-                            ? "Edit Task"
-                            : "Create Task"}
+            <div className="mx-4 space-y-6 pb-10 pt-5 sm:mx-6 lg:mx-8 xl:mx-10">
+
+                {/* Header */}
+                <div className="flex flex-col gap-2 border-b border-[#E5E0DC] pb-5">
+                    <button
+                        type="button"
+                        onClick={() => navigate("/tasks")}
+                        className="w-fit text-sm font-semibold text-[#817B76] transition hover:text-[#E86632]"
+                    >
+                        ← Back to Tasks
+                    </button>
+
+                    <h1 className="text-2xl font-bold tracking-tight text-[#292725] sm:text-3xl">
+                        {isEditing ? "Edit Task" : "Create Task"}
                     </h1>
 
-                    <p>
+                    <p className="text-sm text-[#817B76]">
                         {isEditing
-                            ? "Update task information."
+                            ? "Update the task information below."
                             : "Create and assign work to a project member."}
                     </p>
                 </div>
-            </div>
 
-            <div className="form-card">
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label>Task Title</label>
+                {/* Form */}
+                <div className="mx-auto w-full max-w-4xl overflow-hidden rounded-2xl border border-[#E3DED9] bg-white shadow-[0_7px_25px_rgba(0,0,0,0.035)]">
 
-                        <input
-                            type="text"
-                            name="title"
-                            value={formData.title}
-                            onChange={handleChange}
-                            placeholder="Enter task title"
-                            required
-                        />
+                    <div className="border-b border-[#EEEAE6] bg-[#FCFBFA] px-5 py-4 sm:px-7">
+                        <h2 className="font-bold text-[#292725]">
+                            Task Information
+                        </h2>
+
+                        <p className="mt-1 text-xs text-[#8D8781]">
+                            Add the details and assignment for this task.
+                        </p>
                     </div>
 
-                    <div className="form-group">
-                        <label>Description</label>
+                    <form
+                        onSubmit={handleSubmit}
+                        className="p-5 sm:p-7"
+                    >
+                        <div className="space-y-5">
 
-                        <textarea
-                            name="description"
-                            value={formData.description}
-                            onChange={handleChange}
-                            placeholder="Describe the task"
-                            rows="5"
-                        />
-                    </div>
+                            {/* Title */}
+                            <div>
+                                <label
+                                    htmlFor="title"
+                                    className="mb-2 block text-sm font-semibold text-[#403C38]"
+                                >
+                                    Task Title
+                                </label>
 
-                    <div className="form-row">
-                        <div className="form-group">
-                            <label>Project</label>
+                                <input
+                                    id="title"
+                                    type="text"
+                                    name="title"
+                                    value={formData.title}
+                                    onChange={handleChange}
+                                    placeholder="Enter task title"
+                                    required
+                                    className="w-full rounded-xl border border-[#DDD8D3] bg-[#FCFBFA] px-4 py-3 text-sm text-[#35312E] outline-none transition focus:border-[#FFAD86] focus:bg-white focus:ring-4 focus:ring-[#FF7A45]/[0.08]"
+                                />
+                            </div>
 
-                            <select
-                                name="project"
-                                value={formData.project}
-                                onChange={
-                                    handleProjectChange
-                                }
-                                required
-                            >
-                                <option value="">
-                                    Select project
-                                </option>
+                            {/* Description */}
+                            <div>
+                                <label
+                                    htmlFor="description"
+                                    className="mb-2 block text-sm font-semibold text-[#403C38]"
+                                >
+                                    Description
+                                </label>
 
-                                {projects.map(
-                                    (project) => (
-                                        <option
-                                            key={project._id}
-                                            value={project._id}
-                                        >
-                                            {project.name}
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    value={formData.description}
+                                    onChange={handleChange}
+                                    placeholder="Describe the task"
+                                    rows="4"
+                                    className="w-full resize-y rounded-xl border border-[#DDD8D3] bg-[#FCFBFA] px-4 py-3 text-sm leading-6 text-[#35312E] outline-none transition focus:border-[#FFAD86] focus:bg-white focus:ring-4 focus:ring-[#FF7A45]/[0.08]"
+                                />
+                            </div>
+
+                            {/* Project / Member */}
+                            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                                <div>
+                                    <label
+                                        htmlFor="project"
+                                        className="mb-2 block text-sm font-semibold text-[#403C38]"
+                                    >
+                                        Project
+                                    </label>
+
+                                    <select
+                                        id="project"
+                                        name="project"
+                                        value={formData.project}
+                                        onChange={handleProjectChange}
+                                        required
+                                        className="w-full rounded-xl border border-[#DDD8D3] bg-[#FCFBFA] px-4 py-3 text-sm font-medium text-[#55504B] outline-none transition focus:border-[#FFAD86] focus:bg-white focus:ring-4 focus:ring-[#FF7A45]/[0.08]"
+                                    >
+                                        <option value="">
+                                            Select project
                                         </option>
-                                    )
-                                )}
-                            </select>
-                        </div>
 
-                        <div className="form-group">
-                            <label>Assign To</label>
+                                        {projects.map((project) => (
+                                            <option
+                                                key={project._id}
+                                                value={project._id}
+                                            >
+                                                {project.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
 
-                            <select
-                                name="assignedTo"
-                                value={formData.assignedTo}
-                                onChange={handleChange}
-                                required
-                                disabled={
-                                    !formData.project
-                                }
-                            >
-                                <option value="">
-                                    {!formData.project
-                                        ? "Select project first"
-                                        : projectMembers.length === 0
-                                        ? "No members in this project"
-                                        : "Select member"}
-                                </option>
+                                <div>
+                                    <label
+                                        htmlFor="assignedTo"
+                                        className="mb-2 block text-sm font-semibold text-[#403C38]"
+                                    >
+                                        Assign To
+                                    </label>
 
-                                {projectMembers.map(
-                                    (member) => (
-                                        <option
-                                            key={member._id}
-                                            value={member._id}
-                                        >
-                                            {member.name}
+                                    <select
+                                        id="assignedTo"
+                                        name="assignedTo"
+                                        value={formData.assignedTo}
+                                        onChange={handleChange}
+                                        required
+                                        disabled={!formData.project}
+                                        className="w-full rounded-xl border border-[#DDD8D3] bg-[#FCFBFA] px-4 py-3 text-sm font-medium text-[#55504B] outline-none transition focus:border-[#FFAD86] focus:bg-white focus:ring-4 focus:ring-[#FF7A45]/[0.08] disabled:cursor-not-allowed disabled:bg-[#F1EFED] disabled:text-[#AAA49F]"
+                                    >
+                                        <option value="">
+                                            {!formData.project
+                                                ? "Select project first"
+                                                : projectMembers.length === 0
+                                                ? "No members in this project"
+                                                : "Select member"}
                                         </option>
-                                    )
-                                )}
-                            </select>
 
-                            {formData.project &&
-                                projectMembers.length ===
-                                    0 && (
-                                    <small>
-                                        This project has no
-                                        members assigned yet.
-                                    </small>
-                                )}
+                                        {projectMembers.map((member) => (
+                                            <option
+                                                key={member._id}
+                                                value={member._id}
+                                            >
+                                                {member.name}
+                                            </option>
+                                        ))}
+                                    </select>
+
+                                    {formData.project &&
+                                        projectMembers.length === 0 && (
+                                            <p className="mt-2 text-xs text-[#A09A95]">
+                                                This project has no members assigned yet.
+                                            </p>
+                                        )}
+                                </div>
+                            </div>
+
+                            {/* Status / Priority / Due date */}
+                            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+                                <div>
+                                    <label
+                                        htmlFor="status"
+                                        className="mb-2 block text-sm font-semibold text-[#403C38]"
+                                    >
+                                        Status
+                                    </label>
+
+                                    <select
+                                        id="status"
+                                        name="status"
+                                        value={formData.status}
+                                        onChange={handleChange}
+                                        className="w-full rounded-xl border border-[#DDD8D3] bg-[#FCFBFA] px-4 py-3 text-sm font-medium text-[#55504B] outline-none transition focus:border-[#FFAD86] focus:bg-white focus:ring-4 focus:ring-[#FF7A45]/[0.08]"
+                                    >
+                                        <option value="TODO">
+                                            To Do
+                                        </option>
+                                        <option value="IN_PROGRESS">
+                                            In Progress
+                                        </option>
+                                        <option value="COMPLETED">
+                                            Completed
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label
+                                        htmlFor="priority"
+                                        className="mb-2 block text-sm font-semibold text-[#403C38]"
+                                    >
+                                        Priority
+                                    </label>
+
+                                    <select
+                                        id="priority"
+                                        name="priority"
+                                        value={formData.priority}
+                                        onChange={handleChange}
+                                        className="w-full rounded-xl border border-[#DDD8D3] bg-[#FCFBFA] px-4 py-3 text-sm font-medium text-[#55504B] outline-none transition focus:border-[#FFAD86] focus:bg-white focus:ring-4 focus:ring-[#FF7A45]/[0.08]"
+                                    >
+                                        <option value="LOW">
+                                            Low
+                                        </option>
+                                        <option value="MEDIUM">
+                                            Medium
+                                        </option>
+                                        <option value="HIGH">
+                                            High
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label
+                                        htmlFor="dueDate"
+                                        className="mb-2 block text-sm font-semibold text-[#403C38]"
+                                    >
+                                        Due Date
+                                    </label>
+
+                                    <input
+                                        id="dueDate"
+                                        type="date"
+                                        name="dueDate"
+                                        value={formData.dueDate}
+                                        onChange={handleChange}
+                                        className="w-full rounded-xl border border-[#DDD8D3] bg-[#FCFBFA] px-4 py-3 text-sm font-medium text-[#55504B] outline-none transition focus:border-[#FFAD86] focus:bg-white focus:ring-4 focus:ring-[#FF7A45]/[0.08]"
+                                    />
+                                </div>
+                            </div>
+
+                            {error && (
+                                <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                                    {error}
+                                </div>
+                            )}
+
+                            {/* Actions */}
+                            <div className="flex flex-col-reverse gap-3 border-t border-[#EEEAE6] pt-5 sm:flex-row sm:justify-end">
+                                <button
+                                    type="button"
+                                    onClick={() => navigate("/tasks")}
+                                    className="rounded-xl border border-[#DDD8D3] bg-white px-5 py-3 text-sm font-semibold text-[#625D58] transition hover:bg-[#F8F6F4] active:scale-[0.98]"
+                                >
+                                    Cancel
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    disabled={
+                                        loading ||
+                                        !formData.assignedTo
+                                    }
+                                    className="rounded-xl bg-[#FF7A45] px-6 py-3 text-sm font-semibold text-white shadow-[0_5px_16px_rgba(255,122,69,0.16)] transition hover:-translate-y-0.5 hover:bg-[#FF8B5C] hover:shadow-[0_8px_20px_rgba(255,122,69,0.22)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+                                >
+                                    {loading
+                                        ? "Saving..."
+                                        : isEditing
+                                        ? "Update Task"
+                                        : "Create Task"}
+                                </button>
+                            </div>
                         </div>
-                    </div>
-
-                    <div className="form-row">
-                        <div className="form-group">
-                            <label>Status</label>
-
-                            <select
-                                name="status"
-                                value={formData.status}
-                                onChange={handleChange}
-                            >
-                                <option value="TODO">
-                                    To Do
-                                </option>
-
-                                <option value="IN_PROGRESS">
-                                    In Progress
-                                </option>
-
-                                <option value="COMPLETED">
-                                    Completed
-                                </option>
-                            </select>
-                        </div>
-
-                        <div className="form-group">
-                            <label>Priority</label>
-
-                            <select
-                                name="priority"
-                                value={formData.priority}
-                                onChange={handleChange}
-                            >
-                                <option value="LOW">
-                                    Low
-                                </option>
-
-                                <option value="MEDIUM">
-                                    Medium
-                                </option>
-
-                                <option value="HIGH">
-                                    High
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="form-group">
-                        <label>Due Date</label>
-
-                        <input
-                            type="date"
-                            name="dueDate"
-                            value={formData.dueDate}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    {error && (
-                        <div className="error-box">
-                            {error}
-                        </div>
-                    )}
-
-                    <div className="form-actions">
-                        <button
-                            type="button"
-                            className="cancel-button"
-                            onClick={() =>
-                                navigate("/tasks")
-                            }
-                        >
-                            Cancel
-                        </button>
-
-                        <button
-                            type="submit"
-                            className="primary-button"
-                            disabled={
-                                loading ||
-                                !formData.assignedTo
-                            }
-                        >
-                            {loading
-                                ? "Saving..."
-                                : isEditing
-                                ? "Update Task"
-                                : "Create Task"}
-                        </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </AppLayout>
     );
