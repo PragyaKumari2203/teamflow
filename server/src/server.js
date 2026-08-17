@@ -22,32 +22,13 @@ connectDB();
 
 const app = express();
 
-// DEPLOYEMENT
-// app.use(
-//     cors({
-//         origin: process.env.CLIENT_URL,
-//         credentials: true
-//     })
-// );
-
-
-// LOCAL
-const allowedOrigins = [
-    "http://localhost:5173",
-    "https://teamflow-oghd3x7gk-team-flow5.vercel.app"
-];
 app.use(
     cors({
-        origin: function (origin, callback) {
-            if (!origin || allowedOrigins.includes(origin)) {
-                callback(null, true);
-            } else {
-                callback(new Error("Not allowed by CORS"));
-            }
-        },
+        origin: process.env.CLIENT_URL,
         credentials: true
     })
 );
+
 
 
 app.use(express.json());
